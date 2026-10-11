@@ -33,7 +33,7 @@ window.AAINA = window.AAINA || {};
         return cleanPhoneNumber(branch.whatsapp);
       }
     }
-    return cleanPhoneNumber(site.defaultWhatsApp || "[[91XXXXXXXXXX]]");
+    return cleanPhoneNumber(site.defaultWhatsApp || "916372091560");
   }
 
   /**

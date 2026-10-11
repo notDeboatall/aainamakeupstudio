@@ -20,8 +20,8 @@ window.AAINA.branches = [
     landmark: "Kedargauri Resort",
     lat: 20.2413022,
     lng: 85.8412355,
-    phone: "[[+91 XXXXX XXXXX]]",
-    whatsapp: "[[91XXXXXXXXXX]]",
+    phone: "+91 63720 91560",
+    whatsapp: "916372091560",
     hours: [
       { days: "Mon–Sat", time: "10:00 – 20:00 [[confirm]]" },
       { days: "Sun", time: "By appointment [[confirm]]" }
@@ -47,8 +47,8 @@ window.AAINA.branches = [
     landmark: "Gudiapokhari Square",
     lat: 20.1664124,
     lng: 85.8605194,
-    phone: "[[+91 XXXXX XXXXX]]",
-    whatsapp: "[[91XXXXXXXXXX]]",
+    phone: "+91 63720 91560",
+    whatsapp: "916372091560",
     hours: [
       { days: "Mon–Sat", time: "10:00 – 20:00 [[confirm]]" },
       { days: "Sun", time: "By appointment [[confirm]]" }

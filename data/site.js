@@ -17,8 +17,8 @@ window.AAINA.site = {
   ],
   founder: "[[Name]]",
   baseUrl: "https://notDeboatall.github.io/aainamakeupstudio/",
-  defaultWhatsApp: "[[91XXXXXXXXXX]]", // Digits only, country code 91, placeholder
-  defaultPhoneFormatted: "[[+91 XXXXX XXXXX]]",
+  defaultWhatsApp: "916372091560", // Digits only, country code 91
+  defaultPhoneFormatted: "+91 63720 91560",
   instagram: "https://instagram.com/[[HANDLE]]",
   instagramHandle: "[[@handle]]",
   headerCta: "Book",
