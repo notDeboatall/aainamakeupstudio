@@ -1,0 +1,16 @@
+# Project Brain (internal planning & memory kept local)
+/brain/
+
+# Test harnesses and development previews (not for production)
+/test-*.html
+/phase*-preview.html
+/scratch/
+/assets/**/originals/
+
+# OS and Editor metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+.vscode/
+.idea/
