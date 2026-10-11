@@ -248,14 +248,13 @@
     position: relative;
   }
 
-  /* Mobile Art: Large subject on baseline overlapping masthead slightly, fully inside container */
+  /* Mobile Art: Large subject on baseline overlapping masthead on top */
   .hero-cover__art {
     order: 1;
     position: relative;
     width: 100%;
-    height: clamp(340px, 46svh, 440px);
-    margin-top: -16px;
-    margin-bottom: var(--space-3);
+    margin-top: clamp(-68px, -9svh, -48px);
+    margin-bottom: var(--space-2);
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -264,8 +263,8 @@
 
   .hero-cover__stage {
     position: relative;
-    height: 100%;
-    width: 100%;
+    height: auto;
+    width: auto;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -276,9 +275,9 @@
     position: relative;
     bottom: 0;
     right: auto;
-    height: 100%;
+    height: clamp(330px, 45svh, 400px);
     width: auto;
-    max-width: 100%;
+    max-width: none;
     aspect-ratio: 1393 / 1129;
     object-fit: contain;
     object-position: bottom center;
