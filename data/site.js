@@ -41,9 +41,9 @@ window.AAINA.site = {
         eyebrow: "The Bridal Issue · Vol. 01",
         theme: "paper",
         image: "assets/img/hero/cover-01.webp",
-        width: 1024,
-        height: 1536,
-        anchorX: 60.40,
+        width: 1393,
+        height: 1129,
+        anchorX: 49.35,
         scale: 1.0,
         offsetY: 0,
         alt: "Editorial bridal beauty portrait with Sambalpuri drape, silver choker and traditional crimson accents"
@@ -58,9 +58,9 @@ window.AAINA.site = {
   },
   heroImage: "assets/img/hero/cover-01.webp",
   heroAltText: "Editorial bridal portrait with refined complexion and traditional accents",
-  heroRatio: "1024/1536",
-  heroWidth: 1024,
-  heroHeight: 1536,
+  heroRatio: "1393/1129",
+  heroWidth: 1393,
+  heroHeight: 1129,
 
   /* About / Statement / Social assets */
   images: {

@@ -25,8 +25,8 @@
    -------------------------------------------------------------------------- */
 @media (min-width: 1100px) {
   .hero-cover {
-    height: calc(100svh - var(--header-height, 80px));
-    min-height: 600px;
+    height: calc(100svh - var(--header-height, 80px) - 52px);
+    min-height: 540px;
     max-height: 960px;
     position: relative;
     overflow: hidden;
@@ -39,16 +39,17 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
-    position: static; /* Allows art stage to bleed to viewport right edge with ZERO side bars */
+    position: relative;
   }
 
   .hero-cover__body {
     display: grid;
-    grid-template-columns: minmax(0, 50%) minmax(0, 50%);
+    grid-template-columns: minmax(0, 48%) minmax(0, 52%);
     align-items: center;
     flex: 1;
-    position: static; /* Allows art stage to bleed to viewport right edge with ZERO side bars */
+    position: static;
     margin-top: -1.5svh; /* Remove dead gap between masthead and content */
+    padding-bottom: clamp(12px, 2svh, 24px);
   }
 
   .hero-cover__narrative {
@@ -60,19 +61,18 @@
     z-index: 4;
   }
 
-  /* Art Stage: Bleeds directly to viewport right edge with ZERO side bars */
+  /* Art Stage: Sits fully inside container's right side, bottom on baseline */
   .hero-cover__art {
     position: absolute;
     right: 0;
     bottom: 0;
     height: 100%;
-    width: clamp(540px, 58vw, 1100px);
+    width: 56%;
     pointer-events: none;
-    z-index: 3;
+    z-index: 2;
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    overflow: hidden;
   }
 }
 
@@ -82,7 +82,7 @@
 .hero-cover__masthead-wrap {
   position: relative;
   width: 100%;
-  padding-top: clamp(0.5rem, 1.5svh, 1.25rem);
+  padding-top: 0;
   padding-bottom: 0;
   z-index: 1;
   user-select: none;
@@ -117,28 +117,28 @@
   font-weight: 600;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  margin-bottom: 24px;
+  margin-bottom: clamp(12px, 2svh, 22px);
 }
 
 .hero-cover__headline {
   font-family: var(--font-display);
-  font-size: clamp(2.35rem, 4.2vw, 4.2rem);
+  font-size: clamp(2.15rem, 3.8vw, 3.8rem);
   line-height: 1.05;
   letter-spacing: -0.025em;
   color: var(--hero-text);
   font-weight: 750;
   font-optical-sizing: none;
   font-variation-settings: "opsz" var(--display-opsz);
-  margin-bottom: 24px;
+  margin-bottom: clamp(12px, 2svh, 22px);
   text-wrap: balance;
   transition: color 600ms cubic-bezier(.2,.7,.2,1);
 }
 
 .hero-cover__support {
-  font-size: clamp(0.95rem, 1.15vw, 1.125rem);
-  line-height: 1.6;
+  font-size: clamp(0.925rem, 1.1vw, 1.05rem);
+  line-height: 1.55;
   color: var(--hero-text-muted);
-  margin-bottom: 32px;
+  margin-bottom: clamp(16px, 2.8svh, 28px);
   max-width: 44ch;
   transition: color 600ms cubic-bezier(.2,.7,.2,1);
 }
@@ -173,10 +173,12 @@
   position: absolute;
   right: 0;
   bottom: 0;
-  height: clamp(620px, 92svh, 960px); /* Enlarged scale to fit right side */
-  width: auto;
-  aspect-ratio: 1024 / 1536;
+  height: 80%; /* 78–85% of hero height */
+  width: 100%;
   pointer-events: none;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 
 /* 1px Baseline Hairline Rule: Solid hairline rule across the hero bottom */
@@ -191,20 +193,21 @@
   pointer-events: none;
 }
 
-/* Standalone subject image: bottom on baseline, right edge bleeds to viewport edge */
+/* Standalone subject image: bottom on baseline, inside container */
 .hero-cover__img {
   position: absolute;
   bottom: 0;
   right: 0;
   height: 100%;
   width: auto;
-  aspect-ratio: 1024 / 1536;
+  aspect-ratio: 1393 / 1129;
   max-width: none;
   max-height: none;
   object-fit: contain;
   object-position: bottom right;
   display: block;
-  transform: none;
+  transform: translateY(var(--issue-offset-y, 0px)) scale(var(--issue-scale, 1));
+  transform-origin: bottom right;
 }
 
 /* --------------------------------------------------------------------------
@@ -245,42 +248,43 @@
     position: relative;
   }
 
-  /* Mobile Art: Flush to right edge with NO side bars, enlarged to fit */
+  /* Mobile Art: Large subject on baseline overlapping masthead slightly, fully inside container */
   .hero-cover__art {
     order: 1;
     position: relative;
-    width: calc(100% + max(var(--page-pad), env(safe-area-inset-right, 0px)));
-    margin-right: calc(-1 * max(var(--page-pad), env(safe-area-inset-right, 0px)));
-    height: clamp(380px, 54svh, 500px);
-    margin-top: -12px;
+    width: 100%;
+    height: clamp(340px, 46svh, 440px);
+    margin-top: -16px;
     margin-bottom: var(--space-3);
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: flex-end;
     z-index: 2;
-    overflow: hidden;
   }
 
   .hero-cover__stage {
     position: relative;
     height: 100%;
-    width: auto;
-    aspect-ratio: 1024 / 1536;
+    width: 100%;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: flex-end;
     pointer-events: none;
   }
 
   .hero-cover__img {
-    position: absolute;
+    position: relative;
     bottom: 0;
-    right: 0;
+    right: auto;
     height: 100%;
     width: auto;
-    aspect-ratio: 1024 / 1536;
+    max-width: 100%;
+    aspect-ratio: 1393 / 1129;
     object-fit: contain;
-    object-position: bottom right;
+    object-position: bottom center;
     display: block;
-    transform: none;
+    transform: translateY(var(--issue-offset-y, 0px)) scale(var(--issue-scale, 1));
+    transform-origin: bottom center;
   }
 
   .hero-cover__narrative {
@@ -353,33 +357,36 @@
   .hero-cover__art {
     order: 1;
     position: relative;
-    width: calc(100% + max(var(--page-pad), env(safe-area-inset-right, 0px)));
-    margin-right: calc(-1 * max(var(--page-pad), env(safe-area-inset-right, 0px)));
-    height: clamp(440px, 56svh, 580px);
+    width: 100%;
+    height: clamp(400px, 52svh, 540px);
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     margin-block: var(--space-2) var(--space-4);
     overflow: hidden;
+    z-index: 2;
   }
 
   .hero-cover__stage {
     position: relative;
     height: 100%;
     width: auto;
-    aspect-ratio: 1024 / 1536;
+    aspect-ratio: 1393 / 1129;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: flex-end;
   }
 
   .hero-cover__img {
     position: absolute;
     bottom: 0;
-    right: 0;
     height: 100%;
     width: auto;
+    aspect-ratio: 1393 / 1129;
     object-fit: contain;
-    object-position: bottom right;
+    object-position: bottom center;
     display: block;
+    transform: translateY(var(--issue-offset-y, 0px)) scale(var(--issue-scale, 1));
+    transform-origin: bottom center;
   }
 
   .hero-cover__narrative {
