@@ -28,7 +28,7 @@ window.AAINA = window.AAINA || {};
   let dragStartY = 0;
   let hasDragged = false;
 
-  const AUTOPLAY_INTERVAL = 2200;
+  const AUTOPLAY_INTERVAL = 3200;
   const DRAG_THRESHOLD = 40;
 
   /**
@@ -265,18 +265,27 @@ window.AAINA = window.AAINA || {};
     if (isAutoplayPausedByUser) {
       stopAutoplay();
     } else {
+      isHovered = false;
       startAutoplay();
     }
   }
+
+  let lastCardClickTime = 0;
 
   /**
    * Handle card click (side card -> center, center card -> lightbox)
    */
   function handleCardClick(index) {
+    const now = Date.now();
+    if (now - lastCardClickTime < 250) return;
+    lastCardClickTime = now;
+
     const diff = getOffset(index, activeIndex, items.length);
     if (diff !== 0) {
       goTo(index);
-      startAutoplay();
+      if (!isHovered) {
+        startAutoplay();
+      }
     } else {
       openActiveLightbox();
     }
@@ -300,31 +309,48 @@ window.AAINA = window.AAINA || {};
    * Setup pointer drag / swipe events
    */
   function setupDragEvents(stage) {
+    let pointerTargetCard = null;
+    let isPointerActive = false;
+
     stage.addEventListener("pointerdown", e => {
       // Don't drag if click originates from interactive buttons
       if (e.target.closest("button") || e.target.closest("a")) return;
 
-      isDragging = true;
+      isPointerActive = true;
+      isDragging = false;
       hasDragged = false;
       dragStartX = e.clientX;
       dragStartY = e.clientY;
-      stage.setPointerCapture(e.pointerId);
+      pointerTargetCard = e.target.closest(".carousel__card");
       stopAutoplay();
     });
 
     stage.addEventListener("pointermove", e => {
-      if (!isDragging) return;
+      if (!isPointerActive) return;
       const dx = e.clientX - dragStartX;
       const dy = e.clientY - dragStartY;
 
-      if (Math.abs(dx) > 10) {
+      // Start drag mode and capture pointer once movement exceeds jitter threshold (8px)
+      if (!isDragging && Math.abs(dx) > 8) {
+        isDragging = true;
         hasDragged = true;
+        try {
+          stage.setPointerCapture(e.pointerId);
+        } catch (err) {
+          // Ignored
+        }
       }
     });
 
     const endDrag = e => {
-      if (!isDragging) return;
+      if (!isPointerActive) return;
+      const wasDragging = isDragging;
+      const targetCard = pointerTargetCard;
+
+      isPointerActive = false;
       isDragging = false;
+      pointerTargetCard = null;
+
       try {
         if (stage.hasPointerCapture(e.pointerId)) {
           stage.releasePointerCapture(e.pointerId);
@@ -334,14 +360,28 @@ window.AAINA = window.AAINA || {};
       }
 
       const dx = e.clientX - dragStartX;
-      if (Math.abs(dx) >= DRAG_THRESHOLD) {
+
+      if (wasDragging && Math.abs(dx) >= DRAG_THRESHOLD) {
         if (dx < 0) {
           next(true);
         } else {
           prev(true);
         }
+      } else if (!wasDragging && !hasDragged) {
+        // Pure click: if a card was clicked, route directly
+        if (targetCard) {
+          const cardIdx = Number(targetCard.dataset.index);
+          if (!isNaN(cardIdx)) {
+            handleCardClick(cardIdx);
+          }
+        }
+        if (!isHovered) {
+          startAutoplay();
+        }
       } else {
-        startAutoplay();
+        if (!isHovered) {
+          startAutoplay();
+        }
       }
     };
 
@@ -530,13 +570,13 @@ window.AAINA = window.AAINA || {};
 
     $("#carousel-playpause", wrapper).addEventListener("click", toggleAutoplay);
 
-    // Hover & focus pausing
-    wrapper.addEventListener("mouseenter", () => {
+    // Hover & focus pausing (stage cards pause autoplay on hover)
+    stage.addEventListener("mouseenter", () => {
       isHovered = true;
       stopAutoplay();
     });
 
-    wrapper.addEventListener("mouseleave", () => {
+    stage.addEventListener("mouseleave", () => {
       isHovered = false;
       startAutoplay();
     });
