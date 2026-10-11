@@ -31,13 +31,48 @@ window.AAINA.site = {
     { label: "Studios", href: "studios.html" }
   ],
 
-  /* Imagery configurations (Image Brief & ASSETS.md) */
+  /* Hero "The Cover" configuration (DESIGN §1, §5, CONTENT §Cover) */
+  hero: {
+    autoplayMs: 6500,
+    issues: [
+      {
+        id: "bridal",
+        label: "01 Bridal",
+        eyebrow: "The Bridal Issue · Vol. 01",
+        theme: "paper",
+        image: "assets/img/hero/cover-01.webp",
+        width: 933,
+        height: 1400,
+        alt: "Editorial bridal beauty portrait with Sambalpuri drape, silver choker and traditional crimson accents",
+        callouts: [
+          { label: "Bridal — the full look →", href: "services.html#service-bridal", x: 38, y: 65, side: "left" },
+          { label: "Reception & Engagement →", href: "services.html#service-reception", x: 74, y: 62, side: "right" },
+          { label: "Hair & Saree draping →", href: "services.html#service-hair-saree", x: 90, y: 38, side: "right" }
+        ]
+      },
+      {
+        id: "editorial",
+        label: "02 Editorial",
+        eyebrow: "The Editorial Issue · Vol. 02",
+        theme: "ink",
+        image: "assets/img/hero/cover-02.webp",
+        width: 933,
+        height: 1400,
+        alt: "Contemporary editorial photoshoot portrait with graphic eyeliner, bold lip and silver statement earrings",
+        callouts: [
+          { label: "Editorial & Photoshoot →", href: "services.html#service-editorial", x: 32, y: 74, side: "left" },
+          { label: "Party Glam →", href: "services.html#service-party", x: 92, y: 50, side: "right" },
+          { label: "Hair & Saree draping →", href: "services.html#service-hair-saree", x: 92, y: 36, side: "right" }
+        ]
+      }
+    ]
+  },
   heroImage: "assets/img/hero/cover-01.webp",
   heroImageAlt: "assets/img/hero/cover-02.webp",
   heroAltText: "Editorial bridal portrait with refined complexion and traditional accents",
-  heroRatio: "4/5",
-  heroWidth: 1200,
-  heroHeight: 1500,
+  heroRatio: "933/1400",
+  heroWidth: 933,
+  heroHeight: 1400,
 
   /* About / Statement / Social assets */
   images: {
