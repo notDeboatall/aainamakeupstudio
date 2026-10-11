@@ -20,9 +20,8 @@
   <meta name="twitter:description" content="Bridal, party and editorial makeup in Bhubaneswar, Odisha. Bookings on WhatsApp.">
   <meta name="twitter:image" content="https://notDeboatall.github.io/aainamakeupstudio/assets/img/og/og-default.png">
 
-  <!-- Preload LCP Cover Cutout Images (WebP with alpha) -->
+  <!-- Preload LCP Cover Cutout Image (WebP with alpha) -->
   <link rel="preload" as="image" href="assets/img/hero/cover-01.webp" type="image/webp" fetchpriority="high">
-  <link rel="preload" as="image" href="assets/img/hero/cover-02.webp" type="image/webp">
 
   <!-- Favicon -->
   <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
@@ -108,9 +107,9 @@
 
   <main id="main">
     <!-- ====================================================================
-         SECTION 1: THE COVER (Hero Section - "Quiet Cover" Spec)
+         SECTION 1: THE COVER (The Bridal Issue — "The Cover" Spec)
          ==================================================================== -->
-    <section id="cover" class="hero-cover hairline" aria-roledescription="carousel" aria-label="Cover issues" data-issue="bridal">
+    <section id="cover" class="hero-cover hairline" aria-label="The Cover" data-issue="bridal">
       <div class="hero-cover__container container">
         
         <!-- L1 Masthead (Tight Word Spanning Container Width) -->
@@ -118,12 +117,12 @@
           <div class="hero-cover__masthead">AAINA</div>
         </div>
 
-        <!-- Hero Main Body (Left Narrative, Right Unboxed Art Stage) -->
+        <!-- Hero Main Body (Left Narrative, Right Art Stage) -->
         <div class="hero-cover__body">
           
-          <!-- Narrative Column (Left on Desktop, Below Subject on Mobile) -->
+          <!-- Narrative Column -->
           <div class="hero-cover__narrative">
-            <span class="eyebrow hero-cover__eyebrow" aria-live="polite">The Bridal Issue · Vol. 01</span>
+            <span class="eyebrow hero-cover__eyebrow">The Bridal Issue · Vol. 01</span>
             <h1 class="hero-cover__headline">
               Look like the <em class="italic-accent">mirror</em> agrees.
             </h1>
@@ -136,43 +135,18 @@
               </button>
               <a href="gallery.html" class="text-link hero-cover__secondary-link">See the lookbook →</a>
             </div>
-
-            <!-- Quiet Issue Switcher (Two Dots 16px under the CTA row on the text side) -->
-            <div class="hero-cover__dots" role="group" aria-label="Issue controls">
-              <button type="button" class="hero-cover__dot is-active" data-issue-index="0" aria-label="Bridal issue" aria-pressed="true" aria-current="true">
-                <span class="hero-cover__dot-pip" aria-hidden="true"></span>
-              </button>
-              <button type="button" class="hero-cover__dot" data-issue-index="1" aria-label="Editorial issue" aria-pressed="false" aria-current="false">
-                <span class="hero-cover__dot-pip" aria-hidden="true"></span>
-              </button>
-            </div>
           </div>
 
           <!-- Art Column: Standalone Subject Cutout (Directly on Page Background, No Oval) -->
-          <div class="hero-cover__art">
-            <div class="hero-cover__stage" aria-hidden="false">
-              <div class="hero-cover__cutouts">
-                <!-- Slide 1: Bridal -->
-                <div class="hero-cover__subject hero-cover__subject--bridal is-active" data-issue-id="bridal">
-                  <img src="assets/img/hero/cover-01.webp" 
-                       alt="Editorial bridal beauty portrait with Sambalpuri drape, silver choker and traditional crimson accents" 
-                       class="hero-cover__img" 
-                       width="1024" 
-                       height="1536" 
-                       fetchpriority="high"
-                       loading="eager">
-                </div>
-
-                <!-- Slide 2: Editorial -->
-                <div class="hero-cover__subject hero-cover__subject--editorial" data-issue-id="editorial" aria-hidden="true">
-                  <img src="assets/img/hero/cover-02.webp" 
-                       alt="Contemporary editorial photoshoot portrait with graphic eyeliner, bold lip and silver statement earrings" 
-                       class="hero-cover__img" 
-                       width="1024" 
-                       height="1536" 
-                       loading="lazy">
-                </div>
-              </div>
+          <div class="hero-cover__art" aria-hidden="true">
+            <div class="hero-cover__stage">
+              <img src="assets/img/hero/cover-01.webp" 
+                   alt="Editorial bridal beauty portrait with Sambalpuri drape, silver choker and traditional crimson accents" 
+                   class="hero-cover__img" 
+                   width="1024" 
+                   height="1536" 
+                   fetchpriority="high" 
+                   loading="eager">
             </div>
           </div>
 
@@ -180,9 +154,6 @@
 
         <!-- 1px Baseline Hairline Rule -->
         <div class="hero-cover__baseline" aria-hidden="true"></div>
-
-        <!-- Live Region for Announcements -->
-        <div class="visually-hidden hero-cover__live" aria-live="polite" aria-atomic="true"></div>
       </div>
     </section>
 

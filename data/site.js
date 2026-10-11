@@ -47,18 +47,6 @@ window.AAINA.site = {
         scale: 1.0,
         offsetY: 0,
         alt: "Editorial bridal beauty portrait with Sambalpuri drape, silver choker and traditional crimson accents"
-      },
-      {
-        id: "editorial",
-        eyebrow: "The Editorial Issue · Vol. 02",
-        theme: "ink",
-        image: "assets/img/hero/cover-02.webp",
-        width: 1024,
-        height: 1536,
-        anchorX: 57.23,
-        scale: 0.81,
-        offsetY: 10,
-        alt: "Contemporary editorial photoshoot portrait with graphic eyeliner, bold lip and silver statement earrings"
       }
     ],
     coverLines: [
@@ -69,7 +57,6 @@ window.AAINA.site = {
     ]
   },
   heroImage: "assets/img/hero/cover-01.webp",
-  heroImageAlt: "assets/img/hero/cover-02.webp",
   heroAltText: "Editorial bridal portrait with refined complexion and traditional accents",
   heroRatio: "1024/1536",
   heroWidth: 1024,
