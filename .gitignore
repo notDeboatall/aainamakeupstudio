@@ -4,6 +4,12 @@
 # Test harnesses and development previews (not for production)
 /test-*.html
 /phase*-preview.html
+/measure-*.html
+/measure-*.js
+/debug-*.html
+/preview-*.html
+/audit-*.js
+/server.js
 /scratch/
 /assets/**/originals/
 

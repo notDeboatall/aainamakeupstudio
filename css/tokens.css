@@ -1,5 +1,7 @@
 /* css/tokens.css — Design Tokens for Aaina Makeup Studio */
 :root {
+  color-scheme: light;
+
   /* -------------------------------------------------------------
      Colour Tokens (DESIGN §2)
      One accent only: sindoor red. High-contrast, editorial palette.
@@ -32,9 +34,8 @@
   --hero-bg: var(--paper);
   --hero-text: var(--ink);
   --hero-masthead: var(--ink);
-  --hero-oval: var(--bone);
   --hero-line: var(--line);
-  --header-height: 72px;
+  --header-height: 80px;
 
   --fs-h1: clamp(2.5rem, 7.5vw, 6.5rem);
   --lh-h1: 0.94;
@@ -73,6 +74,17 @@
   --container-max: 1320px;
   --page-pad: clamp(1rem, 4vw, 3rem);
   --section-pad: clamp(4rem, 7.5vw, 8.5rem);
+
+  /* Responsive Breakpoint Standards (RULES §C6) */
+  --bp-sm: 480px;
+  --bp-md: 768px;
+  --bp-lg: 1100px;
+
+  /* Safe Area Inset Tokens (iOS Notch, Dynamic Island, Home Indicator & Landscape) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
 
   /* -------------------------------------------------------------
      Borders, Elevation & Focus (DESIGN §4 & §8)

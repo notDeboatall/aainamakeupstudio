@@ -23,8 +23,10 @@ window.AAINA = window.AAINA || {};
     const services = window.AAINA.services || [];
     container.innerHTML = services.map(s => `
       <div class="service-row" data-reveal>
-        <span class="service-row__num">${s.order || ''}</span>
-        <h3 class="service-row__title">${s.name}</h3>
+        <div class="service-row__header">
+          <span class="service-row__num">${s.order || ''}</span>
+          <h3 class="service-row__title">${s.name}</h3>
+        </div>
         <p class="service-row__blurb">${s.blurb}</p>
         <div class="service-row__meta">
           <span class="service-row__price">
@@ -34,7 +36,7 @@ window.AAINA = window.AAINA || {};
         </div>
         <div class="service-row__action">
           <button type="button" class="btn btn--header" data-book data-service="${s.id}" aria-label="Book ${s.name} on WhatsApp">
-            Book <span class="btn__arrow" aria-hidden="true">→</span>
+            Book on WhatsApp <span class="btn__arrow" aria-hidden="true">→</span>
           </button>
         </div>
       </div>
@@ -50,29 +52,29 @@ window.AAINA = window.AAINA || {};
 
     const services = window.AAINA.services || [];
     container.innerHTML = services.map(s => `
-      <article class="service-card-full hairline" id="service-${s.id}" data-reveal style="padding-block: var(--space-6); display: grid; grid-template-columns: 80px 1.2fr 2fr; gap: var(--space-5);">
-        <span class="numeral">${s.order || ''}</span>
-        <div>
+      <article class="service-card-full hairline" id="service-${s.id}" data-reveal>
+        <span class="service-card-full__num numeral">${s.order || ''}</span>
+        <div class="service-card-full__primary stack stack--sm">
           <span class="eyebrow">${s.duration || ''}</span>
-          <h2 class="h2" style="margin-top: 4px;">${s.name}</h2>
-          <div style="margin-top: var(--space-3);">
-            <strong style="font-size: 1.1rem; color: var(--ink);">
+          <h2 class="h2">${s.name}</h2>
+          <div class="service-card-full__price-wrap">
+            <strong class="service-card-full__price">
               ${s.priceFrom ? `from ₹${s.priceFrom.toLocaleString('en-IN')}` : s.priceDisplay ? escapeHTML(s.priceDisplay) : 'Price on request'}
             </strong>
           </div>
-          <div style="margin-top: var(--space-4);">
+          <div class="service-card-full__action">
             <button type="button" class="btn btn--primary" data-book data-service="${s.id}" aria-label="Book ${s.name} on WhatsApp">
               Book on WhatsApp <span class="btn__arrow" aria-hidden="true">→</span>
             </button>
           </div>
         </div>
-        <div>
-          <p class="lead" style="margin-bottom: var(--space-3); color: var(--ink);">${s.blurb}</p>
+        <div class="service-card-full__details stack stack--sm">
+          <p class="lead">${s.blurb}</p>
           ${s.details && s.details.length ? `
-            <ul style="list-style: none; display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-4); border-top: var(--border-hairline); padding-top: var(--space-3);">
+            <ul class="service-card-full__bullets">
               ${s.details.map(d => `
-                <li style="display: flex; gap: var(--space-2); font-size: 0.95rem; color: var(--muted);">
-                  <span style="color: var(--sindoor);" aria-hidden="true">✦</span>
+                <li class="service-card-full__bullet">
+                  <span class="service-card-full__bullet-mark" aria-hidden="true">✦</span>
                   <span>${escapeHTML(d)}</span>
                 </li>
               `).join("")}

@@ -28,7 +28,7 @@ window.AAINA = window.AAINA || {};
   let dragStartY = 0;
   let hasDragged = false;
 
-  const AUTOPLAY_INTERVAL = 5000;
+  const AUTOPLAY_INTERVAL = 2200;
   const DRAG_THRESHOLD = 40;
 
   /**
@@ -86,18 +86,44 @@ window.AAINA = window.AAINA || {};
       const diff = getOffset(i, activeIndex, total);
       const absDiff = Math.abs(diff);
 
-      card.style.setProperty("--o", String(diff));
-      card.style.setProperty("--a", String(absDiff));
+      // Detect cards wrapping around the circular boundary seam
+      const prevDiff = card._prevDiff;
+      const isWrap = prevDiff !== undefined && (
+        Math.abs(diff - prevDiff) > 2 ||
+        (prevDiff <= -2 && diff >= 2) ||
+        (prevDiff >= 2 && diff <= -2)
+      );
+
+      if (isWrap) {
+        // Suppress transition so wrapping cards teleport instantly offstage without flying across center
+        card.style.transition = "none";
+        card.style.setProperty("--o", String(diff));
+        card.style.setProperty("--a", String(absDiff));
+        card.style.opacity = "0";
+        card.style.visibility = "hidden";
+        card.style.zIndex = "1";
+        void card.offsetWidth; // Force synchronous layout reflow
+        requestAnimationFrame(() => {
+          card.style.transition = "";
+        });
+      } else {
+        card.style.setProperty("--o", String(diff));
+        card.style.setProperty("--a", String(absDiff));
+      }
+
+      card._prevDiff = diff;
 
       // Visual & interaction visibility
       if (absDiff > 2) {
         card.style.opacity = "0";
+        card.style.visibility = "hidden";
         card.style.pointerEvents = "none";
         card.setAttribute("aria-hidden", "true");
         card.setAttribute("tabindex", "-1");
         card.classList.remove("is-active", "is-neighbor");
       } else if (absDiff === 0) {
         card.style.opacity = "1";
+        card.style.visibility = "visible";
         card.style.pointerEvents = "auto";
         card.setAttribute("aria-hidden", "false");
         card.setAttribute("tabindex", "0");
@@ -105,6 +131,7 @@ window.AAINA = window.AAINA || {};
         card.classList.remove("is-neighbor");
       } else {
         card.style.opacity = "1";
+        card.style.visibility = "visible";
         card.style.pointerEvents = "auto";
         card.setAttribute("aria-hidden", "true");
         card.setAttribute("tabindex", "-1");
@@ -162,7 +189,7 @@ window.AAINA = window.AAINA || {};
       }
 
       infoWrap.classList.remove("is-changing");
-    }, 100);
+    }, 180);
   }
 
   /**
@@ -186,12 +213,18 @@ window.AAINA = window.AAINA || {};
     updateLayout();
   }
 
-  function next() {
+  function next(manual = false) {
     goTo(activeIndex + 1);
+    if (manual) {
+      startAutoplay();
+    }
   }
 
-  function prev() {
+  function prev(manual = false) {
     goTo(activeIndex - 1);
+    if (manual) {
+      startAutoplay();
+    }
   }
 
   /**
@@ -210,7 +243,7 @@ window.AAINA = window.AAINA || {};
     if (!shouldAutoplay()) return;
     autoplayTimer = setInterval(() => {
       if (shouldAutoplay()) {
-        next();
+        next(false);
       }
     }, AUTOPLAY_INTERVAL);
   }
@@ -243,6 +276,7 @@ window.AAINA = window.AAINA || {};
     const diff = getOffset(index, activeIndex, items.length);
     if (diff !== 0) {
       goTo(index);
+      startAutoplay();
     } else {
       openActiveLightbox();
     }
@@ -302,12 +336,13 @@ window.AAINA = window.AAINA || {};
       const dx = e.clientX - dragStartX;
       if (Math.abs(dx) >= DRAG_THRESHOLD) {
         if (dx < 0) {
-          next();
+          next(true);
         } else {
-          prev();
+          prev(true);
         }
+      } else {
+        startAutoplay();
       }
-      startAutoplay();
     };
 
     stage.addEventListener("pointerup", endDrag);
@@ -321,16 +356,18 @@ window.AAINA = window.AAINA || {};
     wrapper.addEventListener("keydown", e => {
       if (e.key === "ArrowLeft") {
         e.preventDefault();
-        prev();
+        prev(true);
       } else if (e.key === "ArrowRight") {
         e.preventDefault();
-        next();
+        next(true);
       } else if (e.key === "Home") {
         e.preventDefault();
         goTo(0);
+        startAutoplay();
       } else if (e.key === "End") {
         e.preventDefault();
         goTo(items.length - 1);
+        startAutoplay();
       } else if (e.key === "Enter" || e.key === " ") {
         if (document.activeElement && document.activeElement.classList.contains("carousel__card")) {
           e.preventDefault();
@@ -484,13 +521,11 @@ window.AAINA = window.AAINA || {};
 
     // Button interactions
     $("#carousel-prev", wrapper).addEventListener("click", () => {
-      prev();
-      startAutoplay();
+      prev(true);
     });
 
     $("#carousel-next", wrapper).addEventListener("click", () => {
-      next();
-      startAutoplay();
+      next(true);
     });
 
     $("#carousel-playpause", wrapper).addEventListener("click", toggleAutoplay);

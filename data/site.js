@@ -31,48 +31,49 @@ window.AAINA.site = {
     { label: "Studios", href: "studios.html" }
   ],
 
-  /* Hero "The Cover" configuration (DESIGN §1, §5, CONTENT §Cover) */
+  /* Hero "Quiet Cover" configuration (DESIGN §5, CONTENT §Cover, Decision D23) */
   hero: {
-    autoplayMs: 6500,
+    autoplayMs: 9000,
+    support: "Bridal, party and editorial makeup in Bhubaneswar, matched to your skin, your outfit and your lighting.",
     issues: [
       {
         id: "bridal",
-        label: "01 Bridal",
         eyebrow: "The Bridal Issue · Vol. 01",
         theme: "paper",
         image: "assets/img/hero/cover-01.webp",
-        width: 933,
-        height: 1400,
-        alt: "Editorial bridal beauty portrait with Sambalpuri drape, silver choker and traditional crimson accents",
-        callouts: [
-          { label: "Bridal — the full look →", href: "services.html#service-bridal", x: 38, y: 65, side: "left" },
-          { label: "Reception & Engagement →", href: "services.html#service-reception", x: 74, y: 62, side: "right" },
-          { label: "Hair & Saree draping →", href: "services.html#service-hair-saree", x: 90, y: 38, side: "right" }
-        ]
+        width: 1024,
+        height: 1536,
+        anchorX: 60.40,
+        scale: 1.0,
+        offsetY: 0,
+        alt: "Editorial bridal beauty portrait with Sambalpuri drape, silver choker and traditional crimson accents"
       },
       {
         id: "editorial",
-        label: "02 Editorial",
         eyebrow: "The Editorial Issue · Vol. 02",
         theme: "ink",
         image: "assets/img/hero/cover-02.webp",
-        width: 933,
-        height: 1400,
-        alt: "Contemporary editorial photoshoot portrait with graphic eyeliner, bold lip and silver statement earrings",
-        callouts: [
-          { label: "Editorial & Photoshoot →", href: "services.html#service-editorial", x: 32, y: 74, side: "left" },
-          { label: "Party Glam →", href: "services.html#service-party", x: 92, y: 50, side: "right" },
-          { label: "Hair & Saree draping →", href: "services.html#service-hair-saree", x: 92, y: 36, side: "right" }
-        ]
+        width: 1024,
+        height: 1536,
+        anchorX: 57.23,
+        scale: 0.81,
+        offsetY: 10,
+        alt: "Contemporary editorial photoshoot portrait with graphic eyeliner, bold lip and silver statement earrings"
       }
+    ],
+    coverLines: [
+      { label: "Bridal — the full look", href: "services.html#service-bridal" },
+      { label: "Reception & Engagement", href: "services.html#service-reception" },
+      { label: "Party Glam", href: "services.html#service-party" },
+      { label: "Photoshoot & Editorial", href: "services.html#service-editorial" }
     ]
   },
   heroImage: "assets/img/hero/cover-01.webp",
   heroImageAlt: "assets/img/hero/cover-02.webp",
   heroAltText: "Editorial bridal portrait with refined complexion and traditional accents",
-  heroRatio: "933/1400",
-  heroWidth: 933,
-  heroHeight: 1400,
+  heroRatio: "1024/1536",
+  heroWidth: 1024,
+  heroHeight: 1536,
 
   /* About / Statement / Social assets */
   images: {

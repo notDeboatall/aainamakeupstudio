@@ -137,17 +137,28 @@ window.AAINA = window.AAINA || {};
       menu.classList.add("is-open");
       menu.setAttribute("aria-hidden", "false");
       toggle.setAttribute("aria-expanded", "true");
-      document.body.classList.add("menu-locked");
       closeBtn.focus();
       document.addEventListener("keydown", handleKeydown);
+
+      if (window.AAINA.core && window.AAINA.core.pushOverlay) {
+        window.AAINA.core.pushOverlay("mobile-menu", closeMenu);
+      } else {
+        document.body.classList.add("menu-locked");
+      }
     }
 
-    function closeMenu() {
+    function closeMenu(opts = {}) {
       menu.classList.remove("is-open");
       menu.setAttribute("aria-hidden", "true");
       toggle.setAttribute("aria-expanded", "false");
-      document.body.classList.remove("menu-locked");
       document.removeEventListener("keydown", handleKeydown);
+
+      if (window.AAINA.core && window.AAINA.core.popOverlay) {
+        window.AAINA.core.popOverlay("mobile-menu", opts);
+      } else {
+        document.body.classList.remove("menu-locked");
+      }
+
       if (previousFocus && typeof previousFocus.focus === "function") {
         previousFocus.focus();
       }
@@ -175,11 +186,11 @@ window.AAINA = window.AAINA || {};
     }
 
     toggle.addEventListener("click", openMenu);
-    closeBtn.addEventListener("click", closeMenu);
+    closeBtn.addEventListener("click", () => closeMenu());
 
     // Close when a nav link is clicked
     $$(".mobile-nav__link", menu).forEach(link => {
-      link.addEventListener("click", closeMenu);
+      link.addEventListener("click", () => closeMenu());
     });
   }
 

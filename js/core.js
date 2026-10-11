@@ -180,6 +180,80 @@ window.AAINA = window.AAINA || {};
     }
   }
 
+  /**
+   * iOS-Safe Body Scroll Lock (RULES §G2)
+   * Prevents background rubber-band bouncing without scrolling jump
+   */
+  let scrollLockCount = 0;
+  let lockedScrollY = 0;
+
+  function lockBodyScroll() {
+    scrollLockCount++;
+    if (scrollLockCount === 1) {
+      lockedScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${lockedScrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+      document.body.classList.add("modal-open");
+    }
+  }
+
+  function unlockBodyScroll() {
+    if (scrollLockCount > 0) scrollLockCount--;
+    if (scrollLockCount === 0) {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      document.body.classList.remove("modal-open");
+      window.scrollTo(0, lockedScrollY);
+    }
+  }
+
+  /**
+   * Unified Overlay & Android Back Button (Popstate) Manager (RULES §G3)
+   * Allows hardware/gesture back button to close the topmost overlay first
+   */
+  const overlayStack = [];
+
+  function pushOverlay(name, closeFn) {
+    overlayStack.push({ name, closeFn });
+    lockBodyScroll();
+    if (typeof window !== "undefined" && window.history && window.history.pushState) {
+      try {
+        window.history.pushState({ aainaOverlay: name }, "");
+      } catch (e) {
+        // Safe fallback in restricted environments
+      }
+    }
+  }
+
+  function popOverlay(name, { fromHistory = false } = {}) {
+    const idx = overlayStack.findLastIndex ? overlayStack.findLastIndex(item => item.name === name) : overlayStack.map(i => i.name).lastIndexOf(name);
+    if (idx !== -1) {
+      overlayStack.splice(idx, 1);
+      unlockBodyScroll();
+      if (!fromHistory && typeof window !== "undefined" && window.history && window.history.state && window.history.state.aainaOverlay === name) {
+        try {
+          window.history.back();
+        } catch (e) {}
+      }
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    window.addEventListener("popstate", (e) => {
+      if (overlayStack.length > 0) {
+        const top = overlayStack.pop();
+        unlockBodyScroll();
+        if (top && typeof top.closeFn === "function") {
+          top.closeFn({ fromHistory: true });
+        }
+      }
+    });
+  }
+
   // Export Core API
   window.AAINA.core = {
     $,
@@ -189,6 +263,10 @@ window.AAINA = window.AAINA || {};
     prefersReducedMotion,
     formatAspectRatio,
     createPlaceholderBlock,
-    attachImageWithFallback
+    attachImageWithFallback,
+    lockBodyScroll,
+    unlockBodyScroll,
+    pushOverlay,
+    popOverlay
   };
 })();

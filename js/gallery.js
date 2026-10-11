@@ -310,7 +310,12 @@ window.AAINA = window.AAINA || {};
     const lb = ensureLightbox();
     renderLightboxContent(lb, activeVisibleItems[activeLightboxIndex]);
     lb.classList.add("is-open");
-    document.body.classList.add("modal-open");
+
+    if (window.AAINA.core && window.AAINA.core.pushOverlay) {
+      window.AAINA.core.pushOverlay("lightbox", (opts) => closeLightbox(opts));
+    } else {
+      document.body.classList.add("modal-open");
+    }
 
     const closeBtn = $("#lightbox-close");
     if (closeBtn) closeBtn.focus();
@@ -319,13 +324,18 @@ window.AAINA = window.AAINA || {};
     setupTouchSwipe(lb);
   }
 
-  function closeLightbox() {
+  function closeLightbox(opts = {}) {
     const lb = $("#gallery-lightbox");
     if (!lb) return;
 
     lb.classList.remove("is-open");
-    document.body.classList.remove("modal-open");
     document.removeEventListener("keydown", handleLightboxKeydown);
+
+    if (window.AAINA.core && window.AAINA.core.popOverlay) {
+      window.AAINA.core.popOverlay("lightbox", opts);
+    } else {
+      document.body.classList.remove("modal-open");
+    }
 
     if (previousFocusEl && typeof previousFocusEl.focus === "function") {
       previousFocusEl.focus();

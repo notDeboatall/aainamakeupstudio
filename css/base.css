@@ -16,6 +16,7 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -23,6 +24,7 @@ html {
 
 body {
   min-height: 100vh;
+  min-height: 100svh;
   background-color: var(--paper);
   color: var(--ink);
   font-family: var(--font-text);
@@ -42,6 +44,12 @@ input, button, textarea, select {
   font: inherit;
   color: inherit;
   border-radius: var(--radius);
+  touch-action: manipulation;
+}
+
+button, a {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button {
@@ -69,23 +77,26 @@ table {
    -------------------------------------------------------------------------- */
 .skip {
   position: absolute;
-  top: -100px;
-  left: var(--space-3);
-  z-index: var(--z-lightbox);
-  padding: var(--space-2) var(--space-4);
+  top: -9999px;
+  left: var(--page-pad);
+  z-index: 10000;
+  padding: 0.6rem 1.25rem;
   background-color: var(--ink);
   color: var(--paper);
+  border: 1px solid var(--sindoor);
   font-size: var(--fs-label);
   font-weight: 600;
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
-  transition: top var(--transition-fast);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
-.skip:focus {
-  top: var(--space-3);
-  outline: var(--focus-outline);
-  outline-offset: var(--focus-offset);
+.skip:focus,
+.skip:focus-visible {
+  top: 10px;
+  outline: 2px solid var(--sindoor);
+  outline-offset: 2px;
 }
 
 /* --------------------------------------------------------------------------
@@ -198,6 +209,7 @@ h4, .h4 {
 p {
   max-width: 62ch;
   color: var(--ink);
+  overflow-wrap: anywhere;
 }
 
 p.lead {
@@ -214,20 +226,81 @@ p.lead {
   color: var(--sindoor);
 }
 
+/* Text Wrapping & Safety (RULES §C9) */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4,
+p, address, blockquote, figcaption {
+  overflow-wrap: anywhere;
+  hyphens: manual;
+}
+
 /* --------------------------------------------------------------------------
-   5. Layout Primitives
+   5. Layout Primitives (RULES §C7)
    -------------------------------------------------------------------------- */
 .container {
   width: 100%;
   max-width: var(--container-max);
   margin-inline: auto;
-  padding-inline: var(--page-pad);
+  padding-left: max(var(--page-pad), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--page-pad), env(safe-area-inset-right, 0px));
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: var(--space-4);
+}
+
+/* Vertical flow primitive */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.stack--sm {
+  gap: var(--space-2);
+}
+
+.stack--lg {
+  gap: var(--space-6);
+}
+
+/* Horizontal wrapping cluster primitive */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+/* Responsive 1 -> 2 column split primitive */
+.split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+}
+
+@media (min-width: 768px) {
+  .split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Intrinsic fluid grid primitive */
+.grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-4);
+}
+
+/* Flex & text child overflow safety */
+.cluster > *,
+.stack > *,
+.split > *,
+.grid > *,
+.grid-auto > * {
+  min-width: 0;
 }
 
 /* Sections */

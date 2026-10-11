@@ -124,7 +124,7 @@ window.AAINA = window.AAINA || {};
           <!-- Preferred Date -->
           <div class="form-group">
             <label for="book-date" class="label">Preferred Date (Optional)</label>
-            <input type="date" id="book-date" name="date" class="form-input">
+            <input type="date" id="book-date" name="date" class="form-input" min="${new Date().toISOString().split('T')[0]}">
           </div>
 
           <!-- Anything to note -->
@@ -255,15 +255,54 @@ window.AAINA = window.AAINA || {};
     });
   }
 
+  let cleanupKeyboardListener = null;
+
+  function setupKeyboardAvoidance(dialog) {
+    if (typeof window === "undefined" || !window.visualViewport) return null;
+    const panel = dialog.querySelector(".booking-sheet__panel");
+    if (!panel) return null;
+
+    function onViewportChange() {
+      const vv = window.visualViewport;
+      const windowH = window.innerHeight;
+      const keyboardH = windowH - vv.height;
+      if (keyboardH > 100) {
+        panel.style.maxHeight = `${vv.height - 20}px`;
+        panel.style.marginBottom = `${keyboardH}px`;
+        const activeEl = document.activeElement;
+        if (activeEl && panel.contains(activeEl)) {
+          setTimeout(() => {
+            activeEl.scrollIntoView({ block: "center", behavior: "smooth" });
+          }, 50);
+        }
+      } else {
+        panel.style.maxHeight = "";
+        panel.style.marginBottom = "";
+      }
+    }
+
+    window.visualViewport.addEventListener("resize", onViewportChange);
+    window.visualViewport.addEventListener("scroll", onViewportChange);
+
+    return function cleanup() {
+      window.visualViewport.removeEventListener("resize", onViewportChange);
+      window.visualViewport.removeEventListener("scroll", onViewportChange);
+      panel.style.maxHeight = "";
+      panel.style.marginBottom = "";
+    };
+  }
+
   /**
-   * Open dialog with focus trap
+   * Open dialog with focus trap, visualViewport keyboard handling, & overlay history
    */
   function openBookingSheet(options = {}) {
     activeTrigger = document.activeElement;
     const dialog = ensureDialog();
     renderBookingSheet(dialog, options);
 
-    if (typeof dialog.showModal === "function") {
+    const hasNativeDialog = typeof dialog.showModal === "function";
+
+    if (hasNativeDialog) {
       try {
         dialog.showModal();
       } catch (e) {
@@ -271,9 +310,18 @@ window.AAINA = window.AAINA || {};
       }
     } else {
       dialog.setAttribute("open", "");
+      dialog.setAttribute("role", "dialog");
+      dialog.setAttribute("aria-modal", "true");
     }
 
-    document.body.classList.add("modal-open");
+    if (window.AAINA.core && window.AAINA.core.pushOverlay) {
+      window.AAINA.core.pushOverlay("booking", (opts) => closeBookingSheet(dialog, opts));
+    } else {
+      document.body.classList.add("modal-open");
+    }
+
+    cleanupKeyboardListener = setupKeyboardAvoidance(dialog);
+
     dialog.dispatchEvent(new CustomEvent("aaina:booking:open", { detail: options }));
 
     // Focus first input
@@ -285,6 +333,7 @@ window.AAINA = window.AAINA || {};
     // Backdrop click closes dialog
     dialog.addEventListener("click", handleBackdropClick);
     dialog.addEventListener("cancel", handleCancel);
+    document.addEventListener("keydown", handleDialogKeydown);
   }
 
   function handleBackdropClick(e) {
@@ -300,15 +349,47 @@ window.AAINA = window.AAINA || {};
     closeBookingSheet(dialog);
   }
 
+  function handleDialogKeydown(e) {
+    const dialog = $("#booking");
+    if (!dialog || !dialog.hasAttribute("open")) return;
+
+    if (e.key === "Escape") {
+      closeBookingSheet(dialog);
+      return;
+    }
+
+    // Manual focus trap for fallback environments
+    if (e.key === "Tab") {
+      const focusables = dialog.querySelectorAll("input, select, textarea, button:not([disabled])");
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
   /**
    * Close dialog and restore focus
    */
-  function closeBookingSheet(dialog) {
+  function closeBookingSheet(dialog, opts = {}) {
     dialog = dialog || $("#booking");
     if (!dialog) return;
 
     dialog.removeEventListener("click", handleBackdropClick);
     dialog.removeEventListener("cancel", handleCancel);
+    document.removeEventListener("keydown", handleDialogKeydown);
+
+    if (cleanupKeyboardListener) {
+      cleanupKeyboardListener();
+      cleanupKeyboardListener = null;
+    }
 
     if (typeof dialog.close === "function") {
       try {
@@ -320,7 +401,12 @@ window.AAINA = window.AAINA || {};
       dialog.removeAttribute("open");
     }
 
-    document.body.classList.remove("modal-open");
+    if (window.AAINA.core && window.AAINA.core.popOverlay) {
+      window.AAINA.core.popOverlay("booking", opts);
+    } else {
+      document.body.classList.remove("modal-open");
+    }
+
     dialog.dispatchEvent(new CustomEvent("aaina:booking:close"));
 
     if (activeTrigger && typeof activeTrigger.focus === "function") {
