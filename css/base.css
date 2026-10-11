@@ -1,0 +1,434 @@
+/* css/base.css — CSS Reset, Typography, Grid, Utilities
+   Aaina Makeup Studio (Odisha)
+   Follows DESIGN.md and RULES.md
+*/
+
+/* --------------------------------------------------------------------------
+   1. Modern Reset
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  overflow-x: hidden;
+  border-radius: var(--radius);
+}
+
+img, picture, svg, video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+  border-radius: var(--radius);
+}
+
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+/* --------------------------------------------------------------------------
+   2. Skip Link (Accessibility - PRD §8, RULES §B)
+   -------------------------------------------------------------------------- */
+.skip {
+  position: absolute;
+  top: -100px;
+  left: var(--space-3);
+  z-index: var(--z-lightbox);
+  padding: var(--space-2) var(--space-4);
+  background-color: var(--ink);
+  color: var(--paper);
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  transition: top var(--transition-fast);
+}
+
+.skip:focus {
+  top: var(--space-3);
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-offset);
+}
+
+/* --------------------------------------------------------------------------
+   3. Accessible Focus States (DESIGN §8)
+   -------------------------------------------------------------------------- */
+:focus-visible {
+  outline: var(--focus-outline);
+  outline-offset: var(--focus-offset);
+}
+
+/* --------------------------------------------------------------------------
+   4. Typography
+   -------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4,
+.masthead,
+.numeral,
+blockquote,
+.review-quote,
+.site-header__wordmark,
+.site-footer__masthead,
+.site-footer__col-title,
+.booking-sheet__title,
+.lightbox__caption-title,
+.carousel__caption-title,
+.studio-card__num,
+.studio-card__name,
+.studio-tab__num,
+.studio-tab__name,
+.service-row__num,
+.service-row__title,
+.page-404__numeral {
+  font-family: var(--font-display);
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" var(--display-opsz);
+  color: inherit;
+  text-wrap: balance;
+}
+
+.masthead,
+.hero-cover__masthead,
+.site-footer__masthead,
+.site-header__wordmark {
+  -webkit-text-stroke: 0.012em currentColor;
+}
+
+.masthead {
+  font-size: var(--fs-masthead);
+  font-weight: 800;
+  line-height: var(--lh-masthead);
+  letter-spacing: var(--ls-masthead);
+  text-transform: uppercase;
+}
+
+h1, .h1 {
+  font-size: var(--fs-h1);
+  font-weight: 750;
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+}
+
+h2, .h2 {
+  font-size: var(--fs-h2);
+  font-weight: 750;
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
+}
+
+h3, .h3 {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+  line-height: var(--lh-h3);
+}
+
+h4, .h4 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+/* Italic accent (DESIGN §3: max ONE word per heading) */
+.italic-accent, h1 em, h2 em, h3 em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Editorial Eyebrow / Label (DESIGN §3) */
+.eyebrow, .label {
+  display: block;
+  font-family: var(--font-text);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  font-weight: 600;
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Editorial Numeral (01-06) */
+.numeral {
+  font-family: var(--font-display);
+  font-size: var(--fs-num);
+  line-height: 1;
+  font-weight: 700;
+  color: var(--sindoor);
+  font-optical-sizing: none;
+  font-variation-settings: "opsz" var(--display-opsz);
+}
+
+p {
+  max-width: 62ch;
+  color: var(--ink);
+}
+
+p.lead {
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.text-muted {
+  color: var(--muted);
+}
+
+.text-sindoor {
+  color: var(--sindoor);
+}
+
+/* --------------------------------------------------------------------------
+   5. Layout Primitives
+   -------------------------------------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--page-pad);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--space-4);
+}
+
+/* Sections */
+.section {
+  position: relative;
+  padding-block: var(--section-pad);
+}
+
+.section--sm {
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.section--paper {
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+.section--bone {
+  background-color: var(--bone);
+  color: var(--ink);
+}
+
+.section--ink {
+  background-color: var(--ink);
+  color: var(--paper);
+}
+
+.section--ink .eyebrow,
+.section--ink .text-muted {
+  color: rgba(243, 238, 230, 0.65);
+}
+
+.section--ink .numeral {
+  color: var(--sindoor);
+}
+
+/* Hairlines (DESIGN §4) */
+.hairline {
+  border-bottom: var(--border-hairline);
+}
+
+.hairline-top {
+  border-top: var(--border-hairline);
+}
+
+.section--ink .hairline,
+.section--ink .hairline-top {
+  border-color: var(--line-inv);
+}
+
+/* Asymmetric editorial margins */
+.offset-col-1 { grid-column-start: 2; }
+.offset-col-2 { grid-column-start: 3; }
+.offset-col-3 { grid-column-start: 4; }
+
+/* --------------------------------------------------------------------------
+   6. Image Placeholder Block (DESIGN §7 & Image Brief Section B)
+   -------------------------------------------------------------------------- */
+.img-placeholder,
+.aaina-placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--bone);
+  color: var(--ink);
+  border: var(--border-hairline);
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+}
+
+.aaina-placeholder__label {
+  align-self: flex-start;
+  font-family: var(--font-text);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--sindoor); /* Small sindoor uppercase label top-left */
+}
+
+.aaina-placeholder__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.aaina-placeholder__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--ink); /* "Photo coming soon" in Bodoni bottom-left */
+}
+
+.aaina-placeholder__desc {
+  font-family: var(--font-text);
+  font-size: var(--fs-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted); /* Short description in muted label text */
+  max-width: 45ch;
+}
+
+.img-placeholder {
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.section--bone .img-placeholder,
+.section--bone .aaina-placeholder {
+  background-color: var(--paper);
+}
+
+.img-placeholder__category {
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.img-placeholder__text {
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+/* Oval mirror mask (DESIGN §1 — used in ONE or TWO places only) */
+.mirror-mask {
+  border-radius: 50% / 35%;
+  overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   7. Placeholders marker for unverified owner data (CONTENT §1)
+   -------------------------------------------------------------------------- */
+.placeholder-mark {
+  display: inline-block;
+  background-color: rgba(193, 18, 31, 0.08);
+  color: var(--sindoor);
+  padding-inline: 0.25em;
+  border-bottom: 1px dashed var(--sindoor);
+  font-size: 0.9em;
+}
+
+/* --------------------------------------------------------------------------
+   8. Utilities
+   -------------------------------------------------------------------------- */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   9. Scroll Reveal Animations (DESIGN §6)
+   -------------------------------------------------------------------------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 600ms var(--ease-editorial), transform 600ms var(--ease-editorial);
+  will-change: opacity, transform;
+}
+
+/* Above-the-fold hero cover elements are always immediately visible */
+.hero-cover [data-reveal],
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delay helpers */
+[data-delay="1"] { transition-delay: 100ms; }
+[data-delay="2"] { transition-delay: 200ms; }
+[data-delay="3"] { transition-delay: 300ms; }
+[data-delay="4"] { transition-delay: 400ms; }
+
+/* --------------------------------------------------------------------------
+   10. Reduced Motion (DESIGN §6)
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+

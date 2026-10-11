@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect width="64" height="64" fill="#0F0E0D"/>
+  <text x="32" y="47" font-family="'Bodoni Moda', 'Bodoni MT', Didot, 'Playfair Display', serif" font-size="44" font-weight="800" fill="#F3EEE6" text-anchor="middle">A</text>
+  <circle cx="48" cy="18" r="4" fill="#C1121F"/>
+</svg>

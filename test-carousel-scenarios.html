@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>3D Coverflow Carousel Scenarios Test</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    .test-scenario {
+      margin-bottom: 4rem;
+      border-bottom: 2px dashed var(--line);
+      padding-bottom: 3rem;
+    }
+    .test-badge {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body class="section--bone" style="padding: 2rem;">
+  <div class="container">
+    <h1>Carousel Stress Test Suite</h1>
+
+    <!-- Scenario 1: Fallback with Missing / Broken Image -->
+    <div class="test-scenario" id="scenario-broken">
+      <span class="test-badge">Scenario: Missing Image Fallback</span>
+      <div id="carousel-mount-broken"></div>
+    </div>
+
+    <!-- Scenario 2: 3 Items -->
+    <div class="test-scenario" id="scenario-3">
+      <span class="test-badge">Scenario: 3 Featured Items</span>
+      <div id="carousel-mount-3"></div>
+    </div>
+
+    <!-- Scenario 3: 10 Items -->
+    <div class="test-scenario" id="scenario-10">
+      <span class="test-badge">Scenario: 10 Featured Items</span>
+      <div id="carousel-mount-10"></div>
+    </div>
+  </div>
+
+  <script src="data/site.js"></script>
+  <script src="data/branches.js"></script>
+  <script src="data/services.js"></script>
+  <script src="data/gallery.js"></script>
+  <script src="js/core.js"></script>
+
+  <script>
+    // Create standalone carousel instances for testing 3 items, 10 items, and broken image
+    function buildTestCarousel(mountId, customItems) {
+      const mount = document.getElementById(mountId);
+      if (!mount) return;
+
+      mount.innerHTML = `
+        <div class="carousel" role="region" aria-roledescription="carousel" aria-label="Lookbook Test" tabindex="0">
+          <div class="carousel__stage">
+            <div class="carousel__track"></div>
+          </div>
+          <div class="carousel__caption-wrap">
+            <div class="carousel__caption-info" aria-live="polite">
+              <span class="carousel__caption-cat">TEST</span>
+              <h3 class="carousel__caption-title">${customItems[0].title}</h3>
+            </div>
+            <div class="carousel__actions-wrap">
+              <button type="button" class="btn btn--primary">Book this look →</button>
+            </div>
+          </div>
+          <div class="carousel__controls-bar">
+            <div class="carousel__controls">
+              <button type="button" class="carousel__btn-text btn-prev">Prev</button>
+              <span class="carousel__counter">01 / ${String(customItems.length).padStart(2, '0')}</span>
+              <button type="button" class="carousel__btn-text btn-next">Next</button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      let activeIndex = 0;
+      const track = mount.querySelector('.carousel__track');
+      const total = customItems.length;
+
+      const cards = customItems.map((item, index) => {
+        const card = document.createElement("article");
+        card.className = "carousel__card hairline";
+        card.dataset.index = String(index);
+
+        const img = document.createElement("img");
+        img.className = "carousel__card-img";
+        img.src = item.thumb || item.src;
+        img.alt = item.title;
+        img.style.objectPosition = item.focus || "50% 50%";
+
+        img.addEventListener("error", () => {
+          img.remove();
+          const ph = document.createElement("div");
+          ph.className = "aaina-placeholder carousel__placeholder";
+          ph.innerHTML = `
+            <span class="aaina-placeholder__label">${item.category ? item.category.toUpperCase() : "LOOKBOOK"}</span>
+            <div class="aaina-placeholder__bottom">
+              <span class="aaina-placeholder__title">Photo coming soon</span>
+              <span class="aaina-placeholder__desc">${item.title}</span>
+            </div>
+          `;
+          card.prepend(ph);
+        });
+
+        const overlay = document.createElement("div");
+        overlay.className = "carousel__card-overlay";
+        card.appendChild(img);
+        card.appendChild(overlay);
+
+        card.addEventListener("click", () => {
+          activeIndex = index;
+          update();
+        });
+
+        track.appendChild(card);
+        return card;
+      });
+
+      function getOffset(index, active, count) {
+        let diff = index - active;
+        diff = ((diff % count) + count) % count;
+        if (diff > count / 2) diff -= count;
+        return diff;
+      }
+
+      function update() {
+        cards.forEach((card, i) => {
+          const diff = getOffset(i, activeIndex, total);
+          const absDiff = Math.abs(diff);
+          card.style.setProperty("--o", String(diff));
+          card.style.setProperty("--a", String(absDiff));
+
+          if (absDiff > 2) {
+            card.style.opacity = "0";
+            card.style.pointerEvents = "none";
+            card.classList.remove("is-active", "is-neighbor");
+          } else if (absDiff === 0) {
+            card.style.opacity = "1";
+            card.style.pointerEvents = "auto";
+            card.classList.add("is-active");
+            card.classList.remove("is-neighbor");
+          } else {
+            card.style.opacity = "1";
+            card.style.pointerEvents = "auto";
+            card.classList.add("is-neighbor");
+            card.classList.remove("is-active");
+          }
+
+          const z = absDiff === 0 ? 10 : absDiff === 1 ? 6 : absDiff === 2 ? 3 : 1;
+          card.style.zIndex = String(z);
+        });
+
+        const currentItem = customItems[activeIndex];
+        const titleEl = mount.querySelector('.carousel__caption-title');
+        const catEl = mount.querySelector('.carousel__caption-cat');
+        const counterEl = mount.querySelector('.carousel__counter');
+
+        if (titleEl) titleEl.textContent = currentItem.title;
+        if (catEl) catEl.textContent = (currentItem.category || "BRIDAL").toUpperCase();
+        if (counterEl) counterEl.textContent = `${String(activeIndex + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+      }
+
+      mount.querySelector('.btn-prev').addEventListener('click', () => {
+        activeIndex = (activeIndex - 1 + total) % total;
+        update();
+      });
+
+      mount.querySelector('.btn-next').addEventListener('click', () => {
+        activeIndex = (activeIndex + 1) % total;
+        update();
+      });
+
+      update();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      const allPublic = (window.AAINA.gallery || []).filter(it => !it.placeholder);
+
+      // Scenario 1: Broken Image
+      const brokenItems = [
+        { id: "broken-1", title: "Missing Photo Card", category: "bridal", src: "assets/img/gallery/non-existent-photo.webp" },
+        ...allPublic.slice(0, 5)
+      ];
+      buildTestCarousel("carousel-mount-broken", brokenItems);
+
+      // Scenario 2: 3 Items
+      const threeItems = allPublic.slice(0, 3);
+      buildTestCarousel("carousel-mount-3", threeItems);
+
+      // Scenario 3: 10 Items
+      const tenItems = [
+        ...allPublic.slice(0, 6),
+        ...allPublic.slice(0, 4).map((it, idx) => ({ ...it, id: it.id + '-copy', title: it.title + ' (Encore ' + (idx+1) + ')' }))
+      ];
+      buildTestCarousel("carousel-mount-10", tenItems);
+    });
+  </script>
+</body>
+</html>

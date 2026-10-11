@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bodoni Moda Optical Size (opsz) Comparison — Aaina</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..900;1,6..96,500..900&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <style>
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      padding: var(--space-4);
+      font-family: var(--font-text);
+    }
+    .test-header {
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: var(--space-3);
+      margin-bottom: var(--space-5);
+    }
+    .specimen-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+    .specimen-card {
+      background: #FAF7F2;
+      border: 1px solid var(--line);
+      padding: var(--space-4);
+    }
+    .specimen-tag {
+      display: inline-block;
+      background: var(--ink);
+      color: var(--paper);
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: var(--space-3);
+    }
+    .specimen-masthead {
+      font-family: var(--font-display);
+      font-size: clamp(4.5rem, 18vw, 14rem);
+      font-weight: 800;
+      line-height: 0.82;
+      letter-spacing: -0.02em;
+      text-transform: uppercase;
+      -webkit-text-stroke: 0.012em currentColor;
+      display: block;
+      margin-bottom: var(--space-3);
+    }
+    .specimen-h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 4.5rem);
+      font-weight: 750;
+      line-height: 0.95;
+      letter-spacing: -0.025em;
+      margin-bottom: var(--space-2);
+    }
+    .specimen-h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 4vw, 2.75rem);
+      font-weight: 750;
+      line-height: 1.05;
+      margin-bottom: var(--space-2);
+    }
+    .specimen-num {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--sindoor);
+    }
+    /* Variations */
+    .opsz-11 * {
+      font-optical-sizing: none !important;
+      font-variation-settings: "opsz" 11 !important;
+    }
+    .opsz-14 * {
+      font-optical-sizing: none !important;
+      font-variation-settings: "opsz" 14 !important;
+    }
+    .opsz-20 * {
+      font-optical-sizing: none !important;
+      font-variation-settings: "opsz" 20 !important;
+    }
+    .opsz-28 * {
+      font-optical-sizing: none !important;
+      font-variation-settings: "opsz" 28 !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="test-header">
+    <span class="eyebrow text-sindoor">Display Font Hairline Fix Evaluation</span>
+    <h1 style="font-size: 2rem;">Bodoni Moda: opsz 11 vs 14 vs 20 vs 28</h1>
+    <p class="text-muted">Evaluating thin-stroke sturdiness, legibility, and elegance at 360px mobile and 1920px desktop.</p>
+  </div>
+
+  <div class="specimen-grid">
+    <!-- OPTION A: opsz 11 -->
+    <article class="specimen-card opsz-11" id="specimen-11">
+      <span class="specimen-tag">Option 1: opsz = 11 (Captions/Small text cut)</span>
+      <span class="specimen-masthead">AAINA</span>
+      <h2 class="specimen-h1">Look like the <em>mirror</em> agrees.</h2>
+      <h3 class="specimen-h2">Two studios in Bhubaneswar.</h3>
+      <span class="specimen-num">01 · 02 · 03 · 04 · 05 · 06</span>
+    </article>
+
+    <!-- OPTION B: opsz 14 -->
+    <article class="specimen-card opsz-14" id="specimen-14">
+      <span class="specimen-tag">Option 2: opsz = 14 (Sub-heading cut)</span>
+      <span class="specimen-masthead">AAINA</span>
+      <h2 class="specimen-h1">Look like the <em>mirror</em> agrees.</h2>
+      <h3 class="specimen-h2">Two studios in Bhubaneswar.</h3>
+      <span class="specimen-num">01 · 02 · 03 · 04 · 05 · 06</span>
+    </article>
+
+    <!-- OPTION C: opsz 20 -->
+    <article class="specimen-card opsz-20" id="specimen-20">
+      <span class="specimen-tag">Option 3: opsz = 20 (Intermediate cut)</span>
+      <span class="specimen-masthead">AAINA</span>
+      <h2 class="specimen-h1">Look like the <em>mirror</em> agrees.</h2>
+      <h3 class="specimen-h2">Two studios in Bhubaneswar.</h3>
+      <span class="specimen-num">01 · 02 · 03 · 04 · 05 · 06</span>
+    </article>
+
+    <!-- OPTION D: opsz 28 -->
+    <article class="specimen-card opsz-28" id="specimen-28">
+      <span class="specimen-tag">Option 4: opsz = 28 (Display heading cut)</span>
+      <span class="specimen-masthead">AAINA</span>
+      <h2 class="specimen-h1">Look like the <em>mirror</em> agrees.</h2>
+      <h3 class="specimen-h2">Two studios in Bhubaneswar.</h3>
+      <span class="specimen-num">01 · 02 · 03 · 04 · 05 · 06</span>
+    </article>
+  </div>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Makeup Lookbook — Aaina Makeup Studio</title>
+  <meta name="description" content="Browse bridal, reception, party and editorial makeup looks by Aaina Makeup Studio in Odisha. Tap any look to book on WhatsApp.">
+  <link rel="canonical" href="https://notDeboatall.github.io/aainamakeupstudio/gallery.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Makeup Lookbook — Aaina Makeup Studio">
+  <meta property="og:description" content="Real bridal, party and editorial makeup looks across Odisha.">
+  <meta property="og:image" content="https://notDeboatall.github.io/aainamakeupstudio/assets/img/og/og-default.png">
+  <meta property="og:url" content="https://notDeboatall.github.io/aainamakeupstudio/gallery.html">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Makeup Lookbook — Aaina Makeup Studio">
+  <meta name="twitter:description" content="Browse bridal, party and editorial looks across Odisha.">
+  <meta name="twitter:image" content="https://notDeboatall.github.io/aainamakeupstudio/assets/img/og/og-default.png">
+
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500..900;1,6..96,500..900&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+</head>
+<body class="section--paper">
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header id="site-header"></header>
+
+  <main id="main" class="container section">
+    <header style="margin-bottom: var(--space-6);" data-reveal>
+      <span class="eyebrow">PORTFOLIO &amp; EDITORIALS</span>
+      <h1 class="h1">The Lookbook.</h1>
+      <p class="lead" style="margin-top: var(--space-3); max-width: 62ch;">
+        Real clients, real days. Tap any look to inspect the artistry in high resolution, or book a similar customized styling for your occasion.
+      </p>
+    </header>
+
+    <!-- Dynamic Category Filter Bar -->
+    <nav id="gallery-filters" aria-label="Lookbook categories filter" data-reveal data-delay="1"></nav>
+
+    <!-- Dynamic Gallery Cards Grid (dense auto-flow layout) -->
+    <section aria-label="Lookbook Gallery Grid">
+      <div class="gallery-grid" id="gallery-grid" data-reveal data-delay="2"></div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <dialog id="booking"></dialog>
+
+  <!-- Lightbox Element -->
+  <div id="gallery-lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Lookbook Lightbox View"></div>
+
+  <!-- Scripts -->
+  <script defer src="data/site.js"></script>
+  <script defer src="data/branches.js"></script>
+  <script defer src="data/services.js"></script>
+  <script defer src="data/gallery.js"></script>
+  <script defer src="data/reviews.js"></script>
+  <script defer src="js/core.js"></script>
+  <script defer src="js/whatsapp.js"></script>
+  <script defer src="js/layout.js"></script>
+  <script defer src="js/booking.js"></script>
+  <script defer src="js/gallery.js"></script>
+  <script defer src="js/reveal.js"></script>
+</body>
+</html>

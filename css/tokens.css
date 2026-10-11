@@ -1,0 +1,96 @@
+/* css/tokens.css — Design Tokens for Aaina Makeup Studio */
+:root {
+  /* -------------------------------------------------------------
+     Colour Tokens (DESIGN §2)
+     One accent only: sindoor red. High-contrast, editorial palette.
+     ------------------------------------------------------------- */
+  --ink:          #0F0E0D; /* Near-black for deep typography & dark sections */
+  --paper:        #F3EEE6; /* Warm off-white page background */
+  --bone:         #E6DECF; /* Alternate section background, cards, placeholder */
+  --sindoor:      #C1121F; /* THE accent: CTAs, active states, focus */
+  --sindoor-hover:#9E0E19; /* Darkened sindoor for interactive hover states */
+  --muted:        #6A635A; /* Secondary text (AA contrast >= 4.5:1 on paper) */
+  --line:         rgba(15, 14, 13, 0.18);  /* Hairline rules on paper/bone */
+  --line-strong:  rgba(15, 14, 13, 0.35);  /* Prominent borders on paper */
+  --line-inv:     rgba(243, 238, 230, 0.22);/* Hairline rules on dark (ink) */
+
+  /* -------------------------------------------------------------
+     Typography Tokens (DESIGN §3)
+     Display: Bodoni Moda (Vogue Didone energy)
+     Text/UI: Hanken Grotesk (Neutral grotesque)
+     ------------------------------------------------------------- */
+  --font-display: 'Bodoni Moda', 'Bodoni 72', Didot, 'Playfair Display', serif;
+  --font-text:    'Hanken Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --display-opsz: 14; /* Bodoni Moda optical size axis for display text hairline fix */
+
+  /* Typography Scales */
+  --fs-masthead: clamp(4.5rem, 20vw, 18rem);
+  --lh-masthead: 0.82;
+  --ls-masthead: -0.02em; /* Eased from -0.04em so stroked Didone hairlines do not touch */
+
+  --fs-h1: clamp(2.5rem, 7.5vw, 6.5rem);
+  --lh-h1: 0.94;
+  --ls-h1: -0.025em;
+
+  --fs-h2: clamp(1.85rem, 4.5vw, 3.75rem);
+  --lh-h2: 1.05;
+  --ls-h2: -0.02em;
+
+  --fs-h3: clamp(1.25rem, 2.5vw, 1.85rem);
+  --lh-h3: 1.2;
+
+  --fs-body: clamp(0.95rem, 1.2vw, 1.0625rem);
+  --lh-body: 1.6;
+
+  --fs-label: 0.72rem;
+  --lh-label: 1.2;
+  --ls-label: 0.2em;
+
+  --fs-num: clamp(1.75rem, 3.5vw, 2.75rem);
+
+  /* -------------------------------------------------------------
+     Layout & Spacing Scale (DESIGN §4)
+     Spacing scale (rem): 0.25, 0.5, 1, 1.5, 2, 3, 4.5, 6.5, 9
+     ------------------------------------------------------------- */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem;  /* 8px */
+  --space-3: 1rem;    /* 16px */
+  --space-4: 1.5rem;  /* 24px */
+  --space-5: 2rem;    /* 32px */
+  --space-6: 3rem;    /* 48px */
+  --space-7: 4.5rem;  /* 72px */
+  --space-8: 6.5rem;  /* 104px */
+  --space-9: 9rem;    /* 144px */
+
+  --container-max: 1320px;
+  --page-pad: clamp(1rem, 4vw, 3rem);
+  --section-pad: clamp(4rem, 7.5vw, 8.5rem);
+
+  /* -------------------------------------------------------------
+     Borders, Elevation & Focus (DESIGN §4 & §8)
+     Strict rule: Radius 0 everywhere (editorial sharp edges).
+     No soft box shadows. Single hard offset shadow for dialog.
+     ------------------------------------------------------------- */
+  --radius: 0px;
+  --border-hairline: 1px solid var(--line);
+  --border-hairline-inv: 1px solid var(--line-inv);
+  --shadow-hard: 8px 8px 0 var(--ink);
+  --focus-outline: 2px solid var(--sindoor);
+  --focus-offset: 3px;
+
+  /* -------------------------------------------------------------
+     Motion (DESIGN §6)
+     Respects prefers-reduced-motion in base.css
+     ------------------------------------------------------------- */
+  --ease-editorial: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --transition-fast: 200ms var(--ease-editorial);
+  --transition-base: 350ms var(--ease-editorial);
+  --transition-slow: 600ms var(--ease-editorial);
+
+  /* Layering */
+  --z-base: 1;
+  --z-sticky: 100;
+  --z-header: 500;
+  --z-modal: 1000;
+  --z-lightbox: 1500;
+}
